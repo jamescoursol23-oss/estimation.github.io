@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Estimateur toiture en bardeaux</title>
+    <meta name="theme-color" content="#176b5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Toiture">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="estimate-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Agent de soumission</p>
+            <h1>Toiture en bardeaux</h1>
+          </div>
+          <button id="resetBtn" class="icon-button" type="button" title="Réinitialiser">↻</button>
+        </header>
+
+        <div class="workspace">
+          <form id="estimateForm" class="input-pane">
+            <section class="band">
+              <div class="section-title">
+                <h2>Projet</h2>
+                <span id="fileStatus">Aucun fichier</span>
+              </div>
+              <label>
+                Client ou adresse
+                <input id="projectName" type="text" value="Soumission toiture" autocomplete="off">
+              </label>
+              <label>
+                Plans, devis ou notes
+                <input id="files" type="file" multiple accept=".txt,.csv,.pdf,.png,.jpg,.jpeg,.doc,.docx">
+              </label>
+              <label>
+                Mesures ou extrait de devis
+                <textarea id="notes" rows="8" placeholder="Ex.: superficie toiture 2450 pi2, pente 6/12, faîte 58 pi, noues 32 pi, ventilation 6, heures 42"></textarea>
+              </label>
+            </section>
+
+            <section class="band">
+              <div class="section-title">
+                <h2>Mesures</h2>
+                <button id="parseBtn" class="text-button" type="button">Lire les notes</button>
+              </div>
+              <div class="grid two">
+                <label>Surface toiture pi2<input id="roofArea" type="number" min="0" step="1" value="2200"></label>
+                <label>Pertes %<input id="wastePct" type="number" min="0" step="0.5" value="12"></label>
+                <label>Faîte/arêtes pi<input id="ridgeFeet" type="number" min="0" step="1" value="70"></label>
+                <label>Noues pi<input id="valleyFeet" type="number" min="0" step="1" value="30"></label>
+                <label>Drip edge pi<input id="dripFeet" type="number" min="0" step="1" value="180"></label>
+                <label>Évents<input id="vents" type="number" min="0" step="1" value="6"></label>
+              </div>
+            </section>
+
+            <section class="band">
+              <h2>Coûts</h2>
+              <div class="grid two">
+                <label>Prix bardeaux / paquet<input id="bundlePrice" type="number" min="0" step="0.01" value="42"></label>
+                <label>Couverture / paquet pi2<input id="bundleCoverage" type="number" min="1" step="0.1" value="33.3"></label>
+                <label>Sous-couche / pi2<input id="underlaymentRate" type="number" min="0" step="0.01" value="0.18"></label>
+                <label>Accessoires / pi<input id="accessoryRate" type="number" min="0" step="0.01" value="2.25"></label>
+                <label>Évent unitaire<input id="ventPrice" type="number" min="0" step="0.01" value="28"></label>
+                <label>Conteneur et disposition<input id="disposal" type="number" min="0" step="1" value="850"></label>
+              </div>
+            </section>
+
+            <section class="band">
+              <h2>Main-d’œuvre et profit</h2>
+              <div class="grid two">
+                <label>Heures prévues<input id="hours" type="number" min="0" step="0.5" value="40"></label>
+                <label>Coût horaire équipe<input id="hourlyCost" type="number" min="0" step="0.01" value="75"></label>
+                <label>Frais fixes<input id="overhead" type="number" min="0" step="1" value="650"></label>
+                <label>Profit %<input id="profitPct" type="number" min="0" step="0.5" value="18"></label>
+                <label>Profit cible / heure<input id="profitPerHour" type="number" min="0" step="1" value="85"></label>
+                <label>Taxes %<input id="taxPct" type="number" min="0" step="0.001" value="14.975"></label>
+              </div>
+            </section>
+          </form>
+
+          <aside class="result-pane">
+            <section class="summary mobile-total">
+              <p class="eyebrow">Montant recommandé</p>
+              <output id="total">$0</output>
+              <div class="summary-row">
+                <span>Avant taxes</span>
+                <strong id="subtotal">$0</strong>
+              </div>
+              <div class="summary-row">
+                <span>Taxes</span>
+                <strong id="taxes">$0</strong>
+              </div>
+            </section>
+
+            <section class="metrics">
+              <h2>Métriques</h2>
+              <div class="metric-grid">
+                <div><span>Coût direct</span><strong id="directCost">$0</strong></div>
+                <div><span>Profit inclus</span><strong id="profit">$0</strong></div>
+                <div><span>Profit / heure</span><strong id="profitHour">$0</strong></div>
+                <div><span>Paquets</span><strong id="bundles">0</strong></div>
+              </div>
+            </section>
+
+            <section class="breakdown">
+              <div class="section-title">
+                <h2>Détail</h2>
+                <button id="copyBtn" class="text-button" type="button">Copier</button>
+              </div>
+              <pre id="estimateText"></pre>
+            </section>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
