@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Toiture">
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon-512.png">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -20,7 +20,7 @@
             <p class="eyebrow">Agent de soumission</p>
             <h1>Toiture en bardeaux</h1>
           </div>
-          <button id="resetBtn" class="icon-button" type="button" title="Réinitialiser">↻</button>
+          <button id="resetBtn" class="icon-button" type="button" title="Reinitialiser">R</button>
         </header>
 
         <div class="workspace">
@@ -40,8 +40,26 @@
               </label>
               <label>
                 Mesures ou extrait de devis
-                <textarea id="notes" rows="8" placeholder="Ex.: superficie toiture 2450 pi2, pente 6/12, faîte 58 pi, noues 32 pi, ventilation 6, heures 42"></textarea>
+                <textarea id="notes" rows="8" placeholder="Ex.: superficie toiture 2450 pi2, faite 58 pi, noues 32 pi, demarreur 180 pi, bord de mur 40 pi, ventilateurs 2, plomberie 6, heures 42"></textarea>
               </label>
+            </section>
+
+            <section class="band">
+              <div class="section-title">
+                <h2>Projets sauvegardes</h2>
+                <span id="saveStatus">Non sauvegarde</span>
+              </div>
+              <div class="project-actions">
+                <select id="projectList" aria-label="Projets sauvegardes"></select>
+                <button id="saveProjectBtn" class="text-button primary" type="button">Sauvegarder</button>
+                <button id="loadProjectBtn" class="text-button" type="button">Ouvrir</button>
+                <button id="deleteProjectBtn" class="text-button danger" type="button">Supprimer</button>
+                <button id="exportProjectBtn" class="text-button" type="button">Exporter</button>
+                <label class="file-button">
+                  Importer
+                  <input id="importProject" type="file" accept=".json,application/json">
+                </label>
+              </div>
             </section>
 
             <section class="band">
@@ -51,31 +69,50 @@
               </div>
               <div class="grid two">
                 <label>Surface toiture pi2<input id="roofArea" type="number" min="0" step="1" value="2200"></label>
-                <label>Pertes %<input id="wastePct" type="number" min="0" step="0.5" value="12"></label>
-                <label>Faîte/arêtes pi<input id="ridgeFeet" type="number" min="0" step="1" value="70"></label>
+                <label>Faite/aretes pi<input id="ridgeFeet" type="number" min="0" step="1" value="70"></label>
                 <label>Noues pi<input id="valleyFeet" type="number" min="0" step="1" value="30"></label>
-                <label>Drip edge pi<input id="dripFeet" type="number" min="0" step="1" value="180"></label>
-                <label>Évents<input id="vents" type="number" min="0" step="1" value="6"></label>
+                <label>Demarreur pi<input id="starterFeet" type="number" min="0" step="1" value="180"></label>
+                <label>Bord de mur pi<input id="wallEdgeFeet" type="number" min="0" step="1" value="0"></label>
+                <label>Ventilateurs<input id="roofFans" type="number" min="0" step="1" value="0"></label>
+                <label>Event de plomberie<input id="plumbingVents" type="number" min="0" step="1" value="6"></label>
               </div>
             </section>
 
             <section class="band">
-              <h2>Coûts</h2>
+              <h2>Produits</h2>
               <div class="grid two">
-                <label>Prix bardeaux / paquet<input id="bundlePrice" type="number" min="0" step="0.01" value="42"></label>
+                <label>Bardeau / paquet<input id="shinglePrice" type="number" min="0" step="0.01" value="42"></label>
+                <label>Bardeau de Faitiere / paquet<input id="ridgeCapPrice" type="number" min="0" step="0.01" value="48"></label>
+                <label>Membrane Synthetique / rouleau<input id="syntheticMembranePrice" type="number" min="0" step="0.01" value="72"></label>
+                <label>Membrane Autocollante / rouleau<input id="selfAdhesiveMembranePrice" type="number" min="0" step="0.01" value="95"></label>
+                <label>Noue / pi<input id="valleyPrice" type="number" min="0" step="0.01" value="2.25"></label>
+                <label>Bord de Mur / pi<input id="wallEdgePrice" type="number" min="0" step="0.01" value="3.50"></label>
+                <label>Clous / boite<input id="nailBoxPrice" type="number" min="0" step="0.01" value="45"></label>
+                <label>Agrafes / boite<input id="stapleBoxPrice" type="number" min="0" step="0.01" value="22"></label>
+                <label>Ventilateurs / unite<input id="roofFanPrice" type="number" min="0" step="0.01" value="85"></label>
+                <label>Events de Plomberie / unite<input id="plumbingVentPrice" type="number" min="0" step="0.01" value="28"></label>
+                <label>Pitch / unite<input id="pitchPrice" type="number" min="0" step="0.01" value="18"></label>
+              </div>
+            </section>
+
+            <section class="band">
+              <h2>Materiaux</h2>
+              <div class="grid two">
                 <label>Couverture / paquet pi2<input id="bundleCoverage" type="number" min="1" step="0.1" value="33.3"></label>
-                <label>Sous-couche / pi2<input id="underlaymentRate" type="number" min="0" step="0.01" value="0.18"></label>
-                <label>Accessoires / pi<input id="accessoryRate" type="number" min="0" step="0.01" value="2.25"></label>
-                <label>Évent unitaire<input id="ventPrice" type="number" min="0" step="0.01" value="28"></label>
-                <label>Conteneur et disposition<input id="disposal" type="number" min="0" step="1" value="850"></label>
+                <label>Rouleau sous-couche pi2<input id="underlaymentRollCoverage" type="number" min="1" step="1" value="400"></label>
+                <label>Boite clous / paquets<input id="nailBoxBundles" type="number" min="1" step="1" value="20"></label>
+                <label>Boite agrafes / paquets<input id="stapleBoxBundles" type="number" min="1" step="1" value="30"></label>
+                <label>Cap faîte / paquet pi<input id="ridgeCapCoverage" type="number" min="1" step="1" value="25"></label>
+                <label>Glace/eau rouleau pi<input id="iceRollCoverage" type="number" min="1" step="1" value="65"></label>
               </div>
             </section>
 
             <section class="band">
-              <h2>Main-d’œuvre et profit</h2>
+              <h2>Main-d'oeuvre et profit</h2>
               <div class="grid two">
-                <label>Heures prévues<input id="hours" type="number" min="0" step="0.5" value="40"></label>
-                <label>Coût horaire équipe<input id="hourlyCost" type="number" min="0" step="0.01" value="75"></label>
+                <label>Heures prevues<input id="hours" type="number" min="0" step="0.5" value="40"></label>
+                <label>Cout horaire equipe<input id="hourlyCost" type="number" min="0" step="0.01" value="75"></label>
+                <label>Conteneur et disposition<input id="disposal" type="number" min="0" step="1" value="850"></label>
                 <label>Frais fixes<input id="overhead" type="number" min="0" step="1" value="650"></label>
                 <label>Profit %<input id="profitPct" type="number" min="0" step="0.5" value="18"></label>
                 <label>Profit cible / heure<input id="profitPerHour" type="number" min="0" step="1" value="85"></label>
@@ -86,7 +123,7 @@
 
           <aside class="result-pane">
             <section class="summary mobile-total">
-              <p class="eyebrow">Montant recommandé</p>
+              <p class="eyebrow">Montant recommande</p>
               <output id="total">$0</output>
               <div class="summary-row">
                 <span>Avant taxes</span>
@@ -99,9 +136,9 @@
             </section>
 
             <section class="metrics">
-              <h2>Métriques</h2>
+              <h2>Metriques</h2>
               <div class="metric-grid">
-                <div><span>Coût direct</span><strong id="directCost">$0</strong></div>
+                <div><span>Cout direct</span><strong id="directCost">$0</strong></div>
                 <div><span>Profit inclus</span><strong id="profit">$0</strong></div>
                 <div><span>Profit / heure</span><strong id="profitHour">$0</strong></div>
                 <div><span>Paquets</span><strong id="bundles">0</strong></div>
@@ -110,7 +147,18 @@
 
             <section class="breakdown">
               <div class="section-title">
-                <h2>Détail</h2>
+                <h2>Liste de materiaux</h2>
+                <div class="button-row">
+                  <button id="copyMaterialsBtn" class="text-button" type="button">Copier</button>
+                  <button id="exportMaterialsBtn" class="text-button" type="button">CSV</button>
+                </div>
+              </div>
+              <div id="materialsList" class="materials-list"></div>
+            </section>
+
+            <section class="breakdown">
+              <div class="section-title">
+                <h2>Detail</h2>
                 <button id="copyBtn" class="text-button" type="button">Copier</button>
               </div>
               <pre id="estimateText"></pre>

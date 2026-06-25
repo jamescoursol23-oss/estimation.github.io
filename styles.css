@@ -119,7 +119,8 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   min-height: 42px;
   border: 1px solid var(--line);
@@ -138,6 +139,7 @@ textarea {
 
 input:focus,
 textarea:focus,
+select:focus,
 button:focus {
   outline: 3px solid rgba(243, 193, 75, 0.45);
   outline-offset: 1px;
@@ -166,8 +168,52 @@ button:focus {
 }
 
 .text-button:hover,
-.icon-button:hover {
+.icon-button:hover,
+.file-button:hover {
   border-color: var(--accent);
+}
+
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.danger {
+  color: #9b2f20;
+}
+
+.project-actions {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) repeat(5, auto);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.file-button {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.file-button input {
+  display: none;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .summary {
@@ -235,6 +281,39 @@ pre {
   line-height: 1.45;
 }
 
+.materials-list {
+  display: grid;
+  gap: 8px;
+}
+
+.material-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.material-row:last-child {
+  border-bottom: 0;
+}
+
+.material-row strong {
+  font-size: 14px;
+}
+
+.material-row span {
+  color: var(--accent-2);
+  font-weight: 800;
+  text-align: right;
+}
+
+.material-row small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 @media (max-width: 900px) {
   .app-shell {
     padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
@@ -242,7 +321,8 @@ pre {
 
   .workspace,
   .grid.two,
-  .metric-grid {
+  .metric-grid,
+  .project-actions {
     grid-template-columns: 1fr;
   }
 
@@ -278,8 +358,22 @@ pre {
   }
 
   input,
-  textarea {
+  textarea,
+  select {
     min-height: 46px;
+  }
+
+  .project-actions .text-button,
+  .project-actions .file-button {
+    min-height: 44px;
+  }
+
+  .material-row {
+    grid-template-columns: 1fr;
+  }
+
+  .material-row span {
+    text-align: left;
   }
 }
 

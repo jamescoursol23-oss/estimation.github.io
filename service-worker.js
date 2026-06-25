@@ -1,11 +1,12 @@
-const CACHE_NAME = "toiture-estimateur-v1";
+const CACHE_NAME = "toiture-estimateur-v3";
 const APP_FILES = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./icon.svg"
+  "./icon.svg",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
